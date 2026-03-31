@@ -12,6 +12,8 @@ import { AiNotificationToast } from '@/components/ai/ai-notification-toast';
 import { trackVisit } from '@/lib/tracking';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { MobileApp } from '@/mobile/mobile-app';
+import { useVisitorStore } from '@/stores/visitor-store';
+import { VisitorDialog } from '@/components/desktop/visitor-dialog';
 
 const IDLE_MESSAGES = [
   'Hey, still here! Just running a quick system check... All good on my end. Need anything?',
@@ -25,6 +27,7 @@ function App() {
   const isMobile = useIsMobile();
   const phase = useBootStore((s) => s.phase);
   const theme = useThemeStore((s) => s.theme);
+  const showVisitorDialog = useVisitorStore((s) => s.showVisitorDialog);
   const [showBSOD, setShowBSOD] = useState(false);
 
   // Apply theme on mount
@@ -44,18 +47,19 @@ function App() {
     }
   }, [phase]);
 
-  // First-visit: start guided tour after 2s on desktop
+  // First-visit: start guided tour after 2s on desktop (waits for visitor dialog)
   useEffect(() => {
     if (phase !== 'desktop') return;
     const visited = localStorage.getItem('hilalOS-visited');
     if (visited) return;
+    if (showVisitorDialog) return;
 
     const timer = setTimeout(() => {
       useTourStore.getState().startTour();
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [phase]);
+  }, [phase, showVisitorDialog]);
 
   // Idle timer: send a system message after 60s of no activity
   useEffect(() => {
@@ -122,6 +126,9 @@ function App() {
             <Desktop />
             <Taskbar />
             <AiNotificationToast />
+            <AnimatePresence>
+              {showVisitorDialog && <VisitorDialog key="visitor-dialog" />}
+            </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>

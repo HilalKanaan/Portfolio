@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { TOUR_STEPS } from '@/data/tour-steps';
 import { useWindowStore } from '@/stores/window-store';
 import { useAIStore } from '@/stores/ai-store';
+import { useVisitorStore } from '@/stores/visitor-store';
 import { WINDOW_CONFIGS } from '@/hooks/use-ai-commands';
 import { DEFAULT_WINDOW_SIZE, DEFAULT_WINDOW_MIN_SIZE } from '@/utils/constants';
 import type { WindowType } from '@/types/window';
@@ -80,9 +81,11 @@ export const useTourStore = create<TourStore>((set, get) => ({
         size: { ...DEFAULT_WINDOW_SIZE },
         minSize: { ...DEFAULT_WINDOW_MIN_SIZE },
       });
-      useAIStore.getState().addSystemEvent(
-        "Tour complete! I'm Hilal — the developer who built this whole OS. Ask me anything, or just explore on your own!"
-      );
+      const visitorType = useVisitorStore.getState().visitorType;
+      const welcomeMsg = visitorType === 'recruiter'
+        ? "Tour complete! I'm Hilal — the developer behind this OS. Since you're evaluating my work, I'd recommend starting with My Projects and My Experience. Feel free to ask me anything!"
+        : "Tour complete! I'm Hilal — welcome to my portfolio OS. Explore freely, and ask me anything you're curious about!";
+      useAIStore.getState().addSystemEvent(welcomeMsg);
     }, 500);
   },
 }));

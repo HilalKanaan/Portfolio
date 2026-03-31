@@ -39,6 +39,13 @@ export async function trackWindowOpen(windowType: string) {
   }
 }
 
+export function trackVisitorType(type: 'recruiter' | 'visitor'): void {
+  if (!sessionDocId) return;
+  updateDoc(doc(db, 'visitors', sessionDocId), {
+    visitorType: type,
+  }).catch(() => {});
+}
+
 export async function trackProjectView(projectId: string) {
   const analytics = await analyticsPromise;
   if (analytics) {

@@ -4,6 +4,7 @@ export const Z_INDEX = {
   AI_ORB: 8000,
   TOUR_OVERLAY: 8500,
   TASKBAR: 9000,
+  VISITOR_DIALOG: 9500,
   START_MENU: 9100,
   BOOT: 10000,
 } as const;

@@ -19,6 +19,7 @@ interface VisitorDoc {
   screenSize: string;
   sessionId: string;
   pageViews: string[];
+  visitorType?: string;
 }
 
 interface Stats {
@@ -26,6 +27,8 @@ interface Stats {
   today: number;
   thisWeek: number;
   thisMonth: number;
+  recruiters: number;
+  visitors: number;
   recentVisitors: VisitorDoc[];
   topReferrers: { referrer: string; count: number }[];
   topPages: { page: string; count: number }[];
@@ -87,7 +90,11 @@ export function SystemMonitorWindow() {
       const pageMap = new Map<string, number>();
       const browserMap = new Map<string, number>();
 
+      let recruiters = 0;
+      let visitors = 0;
       recentVisitors.forEach((v) => {
+        if (v.visitorType === 'recruiter') recruiters++;
+        else if (v.visitorType === 'visitor') visitors++;
         const ref = v.referrer || 'direct';
         referrerMap.set(ref, (referrerMap.get(ref) || 0) + 1);
 
@@ -110,6 +117,8 @@ export function SystemMonitorWindow() {
         today: todaySnap.data().count,
         thisWeek: weekSnap.data().count,
         thisMonth: monthSnap.data().count,
+        recruiters,
+        visitors,
         recentVisitors,
         topReferrers: toSorted(referrerMap, 'referrer') as Stats['topReferrers'],
         topPages: toSorted(pageMap, 'page') as Stats['topPages'],
@@ -193,6 +202,12 @@ function OverviewTab({ stats }: { stats: Stats }) {
         <StatBox label="This Month" value={stats.thisMonth} />
       </div>
 
+      {/* Visitor Types */}
+      <div className="grid grid-cols-2 gap-[4px]">
+        <StatBox label="Recruiters" value={stats.recruiters} />
+        <StatBox label="Visitors" value={stats.visitors} />
+      </div>
+
       {/* Top Referrers */}
       <div>
         <div className="font-bold mb-[2px] text-[12px]">Top Referrers</div>
@@ -243,6 +258,9 @@ function VisitorsTab({ visitors }: { visitors: VisitorDoc[] }) {
         <div className="w-[100px] px-[4px] py-[2px] border-r border-[var(--color-win-dark)]">
           Referrer
         </div>
+        <div className="w-[60px] px-[4px] py-[2px] border-r border-[var(--color-win-dark)]">
+          Type
+        </div>
         <div className="w-[80px] px-[4px] py-[2px] border-r border-[var(--color-win-dark)]">
           Screen
         </div>
@@ -262,6 +280,9 @@ function VisitorsTab({ visitors }: { visitors: VisitorDoc[] }) {
             </div>
             <div className="w-[100px] px-[4px] py-[1px] border-r border-[var(--color-win-light)] truncate">
               {v.referrer || 'direct'}
+            </div>
+            <div className="w-[60px] px-[4px] py-[1px] border-r border-[var(--color-win-light)] text-center">
+              {v.visitorType === 'recruiter' ? '💼' : v.visitorType === 'visitor' ? '👤' : '-'}
             </div>
             <div className="w-[80px] px-[4px] py-[1px] border-r border-[var(--color-win-light)]">
               {v.screenSize}
