@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+@theme {
+  /* Windows 95 System Colors */
+  --color-win-bg: #c0c0c0;
+  --color-win-dark: #808080;
+  --color-win-darker: #404040;
+  --color-win-light: #dfdfdf;
+  --color-win-lighter: #ffffff;
+  --color-win-title-active: #000080;
+  --color-win-title-inactive: #808080;
+  --color-win-title-text: #ffffff;
+  --color-win-desktop: #008080;
+  --color-win-desktop-dark: #1a1a2e;
+  --color-win-btn-face: #c0c0c0;
+  --color-win-highlight: #000080;
+  --color-win-highlight-text: #ffffff;
+  --color-win-text: #000000;
+
+  /* Fonts */
+  --font-ms-sans: "MS Sans Serif", "Microsoft Sans Serif", Tahoma, sans-serif;
+  --font-fixedsys: "Fixedsys Excelsior", "Courier New", monospace;
+
+  /* Font sizes */
+  --text-win-xs: 11px;
+  --text-win-xs--line-height: 13px;
+  --text-win-sm: 12px;
+  --text-win-sm--line-height: 16px;
+  --text-win-base: 13px;
+  --text-win-base--line-height: 18px;
+
+  /* Win95 Box Shadows */
+  --shadow-win-raised: inset -1px -1px 0 #404040, inset 1px 1px 0 #ffffff, inset -2px -2px 0 #808080, inset 2px 2px 0 #dfdfdf;
+  --shadow-win-sunken: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #404040, inset -2px -2px 0 #dfdfdf, inset 2px 2px 0 #808080;
+  --shadow-win-frame: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf, inset -2px -2px 0 #808080, inset 2px 2px 0 #ffffff;
+  --shadow-win-pressed: inset -1px -1px 0 #dfdfdf, inset 1px 1px 0 #808080;
+}
+
+@layer base {
+  * {
+    image-rendering: pixelated;
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: var(--font-ms-sans);
+    font-size: var(--text-win-base);
+    line-height: var(--text-win-base--line-height);
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+    user-select: none;
+    color: var(--color-win-text);
+  }
+}
+
+@layer components {
+  .win-raised {
+    background-color: var(--color-win-btn-face);
+    box-shadow: var(--shadow-win-raised);
+  }
+
+  .win-sunken {
+    background-color: #ffffff;
+    box-shadow: var(--shadow-win-sunken);
+  }
+
+  .win-frame {
+    background-color: var(--color-win-bg);
+    box-shadow: var(--shadow-win-frame);
+  }
+
+  .win-title-active {
+    background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
+  }
+
+  .win-title-inactive {
+    background: linear-gradient(90deg, #808080 0%, #b5b5b5 100%);
+  }
+
+  /* Win95 scrollbar */
+  .win-scrollbar::-webkit-scrollbar {
+    width: 16px;
+  }
+  .win-scrollbar::-webkit-scrollbar-track {
+    background-color: var(--color-win-bg);
+    box-shadow: var(--shadow-win-sunken);
+  }
+  .win-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--color-win-btn-face);
+    box-shadow: var(--shadow-win-raised);
+  }
+}
+
+/* Glitch effect triggered by AI TRIGGER_GLITCH command */
+@keyframes glitch-anim {
+  0% { transform: translate(0); filter: none; }
+  20% { transform: translate(-2px, 1px); filter: hue-rotate(90deg); }
+  40% { transform: translate(2px, -1px); filter: hue-rotate(180deg); }
+  60% { transform: translate(-1px, -2px); filter: hue-rotate(270deg); }
+  80% { transform: translate(1px, 2px); filter: hue-rotate(360deg); }
+  100% { transform: translate(0); filter: none; }
+}
+
+.glitch-active #root {
+  animation: glitch-anim 0.15s ease-in-out 3;
+}
+
+/* Mobile: hide scrollbars for carousels */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Mobile: override pixelated rendering and Win95 fonts */
+.mobile-app,
+.mobile-app * {
+  image-rendering: auto;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.mobile-app {
+  font-family: system-ui, -apple-system, "SF Pro Display", "Segoe UI", sans-serif;
+  color: #ffffff;
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --color-win-bg: #2d2d2d;
+  --color-win-dark: #1a1a1a;
+  --color-win-darker: #0d0d0d;
+  --color-win-light: #3d3d3d;
+  --color-win-lighter: #4d4d4d;
+  --color-win-title-active: #4a0080;
+  --color-win-desktop: #1a1a2e;
+  --color-win-btn-face: #2d2d2d;
+  --color-win-text: #c0c0c0;
+}
