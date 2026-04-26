@@ -1,4 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@500;600;700;800;900&display=swap');
 @import "tailwindcss";
+@import "./mobile/theme.css";
 
 @theme {
   /* Windows 95 System Colors */
@@ -122,17 +124,10 @@
   display: none;
 }
 
-/* Mobile: override pixelated rendering and Win95 fonts */
+/* Mobile: override pixelated rendering — typography and colors set in mobile/theme.css */
 .mobile-app,
 .mobile-app * {
   image-rendering: auto;
-  -webkit-font-smoothing: auto;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.mobile-app {
-  font-family: system-ui, -apple-system, "SF Pro Display", "Segoe UI", sans-serif;
-  color: #ffffff;
 }
 
 /* Dark theme overrides */

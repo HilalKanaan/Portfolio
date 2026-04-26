@@ -1,0 +1,138 @@
+/* Cinematic Noir mobile theme — premium, dark, vibrant accents */
+/* Note: Google Fonts @import must live in index.css to be at the top of the cascade */
+
+.mobile-app {
+  /* Core palette */
+  --m-bg: #050507;
+  --m-bg-2: #0A0A0F;
+  --m-card: #0E0E14;
+  --m-ink: #F5F1E8;
+  --m-ink-soft: rgba(245, 241, 232, 0.72);
+  --m-muted: #6E6E7A;
+  --m-line: rgba(245, 241, 232, 0.08);
+  --m-line-strong: rgba(245, 241, 232, 0.16);
+
+  /* Accents */
+  --m-accent: #00E5FF;
+  --m-accent-soft: rgba(0, 229, 255, 0.16);
+  --m-accent-glow: 0 0 32px rgba(0, 229, 255, 0.4);
+  --m-accent-2: #FF2E93;
+  --m-accent-2-soft: rgba(255, 46, 147, 0.16);
+
+  /* Fonts */
+  --m-display: 'Instrument Serif', 'Times New Roman', serif;
+  --m-sans: 'Inter Tight', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --m-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  /* Shadows */
+  --m-shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 48px rgba(0, 0, 0, 0.5);
+  --m-shadow-fab: 0 0 0 1px rgba(0, 229, 255, 0.3), 0 8px 32px rgba(0, 229, 255, 0.25), 0 16px 48px rgba(0, 0, 0, 0.6);
+
+  background: var(--m-bg);
+  color: var(--m-ink);
+  font-family: var(--m-body);
+  font-size: 16px;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.mobile-app * {
+  box-sizing: border-box;
+}
+
+/* Film grain overlay — subtle SVG noise */
+.mobile-app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Vignette */
+.mobile-app::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+/* Scroll container */
+.mobile-app .m-scroll {
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  position: relative;
+}
+
+.mobile-app .m-scroll::-webkit-scrollbar { display: none; }
+.mobile-app .m-scroll { scrollbar-width: none; }
+
+/* Safe-area helpers */
+.mobile-app .m-safe-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom), 16px);
+}
+
+/* Display type utility */
+.mobile-app .m-display {
+  font-family: var(--m-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+.mobile-app .m-display-italic {
+  font-family: var(--m-display);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 0.95;
+}
+
+.mobile-app .m-eyebrow {
+  font-family: var(--m-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--m-muted);
+}
+
+/* Subtle shimmer animation for accent moments */
+@keyframes m-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes m-pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(0, 229, 255, 0); }
+}
+
+@keyframes m-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Reduced motion fallback */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-app *,
+  .mobile-app *::before,
+  .mobile-app *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
