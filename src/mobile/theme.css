@@ -1,138 +1,188 @@
-/* Cinematic Noir mobile theme — premium, dark, vibrant accents */
-/* Note: Google Fonts @import must live in index.css to be at the top of the cascade */
+/* ================================================================
+   HilalOS Pocket Edition — Win95 mobile theme
+   Shares the global --color-win-* / --shadow-win-* variables from
+   index.css; this file adds phone-specific chrome & utilities.
+   ================================================================ */
 
 .mobile-app {
-  /* Core palette */
-  --m-bg: #050507;
-  --m-bg-2: #0A0A0F;
-  --m-card: #0E0E14;
-  --m-ink: #F5F1E8;
-  --m-ink-soft: rgba(245, 241, 232, 0.72);
-  --m-muted: #6E6E7A;
-  --m-line: rgba(245, 241, 232, 0.08);
-  --m-line-strong: rgba(245, 241, 232, 0.16);
+  /* Pocket-specific tokens */
+  --pk-status-h: 26px;
+  --pk-taskbar-h: 54px;
+  --pk-safe-top: env(safe-area-inset-top, 0px);
+  --pk-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --pk-font-pixel: 'VT323', 'Courier New', monospace;
+  --pk-font-tiny: 'Silkscreen', var(--font-ms-sans);
+  --pk-crt-line: rgba(0, 0, 0, 0.14);
 
-  /* Accents */
-  --m-accent: #00E5FF;
-  --m-accent-soft: rgba(0, 229, 255, 0.16);
-  --m-accent-glow: 0 0 32px rgba(0, 229, 255, 0.4);
-  --m-accent-2: #FF2E93;
-  --m-accent-2-soft: rgba(255, 46, 147, 0.16);
-
-  /* Fonts */
-  --m-display: 'Instrument Serif', 'Times New Roman', serif;
-  --m-sans: 'Inter Tight', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --m-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-
-  /* Shadows */
-  --m-shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 48px rgba(0, 0, 0, 0.5);
-  --m-shadow-fab: 0 0 0 1px rgba(0, 229, 255, 0.3), 0 8px 32px rgba(0, 229, 255, 0.25), 0 16px 48px rgba(0, 0, 0, 0.6);
-
-  background: var(--m-bg);
-  color: var(--m-ink);
-  font-family: var(--m-body);
-  font-size: 16px;
-  line-height: 1.55;
-  letter-spacing: -0.005em;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #000;
+  font-family: var(--font-ms-sans);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--color-win-text);
+  touch-action: manipulation;
+  overscroll-behavior: none;
 }
 
-.mobile-app * {
-  box-sizing: border-box;
+/* ── Wallpaper: dithered Win95 teal ─────────────────────────── */
+.pk-wallpaper {
+  background-color: var(--color-win-desktop);
+  background-image:
+    radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.06), transparent 60%),
+    conic-gradient(
+      var(--color-win-desktop) 25%, #007070 0 50%,
+      var(--color-win-desktop) 0 75%, #007070 0
+    );
+  background-size: 100% 100%, 4px 4px;
 }
 
-/* Film grain overlay — subtle SVG noise */
-.mobile-app::before {
-  content: '';
+/* ── CRT scanline overlay ───────────────────────────────────── */
+.pk-scanlines {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 9999;
-  opacity: 0.04;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index: 9990;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    var(--pk-crt-line) 2px 3px
+  );
+  opacity: 0.22;
+  mix-blend-mode: multiply;
 }
 
-/* Vignette */
-.mobile-app::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9998;
-  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
+/* ── Type helpers ───────────────────────────────────────────── */
+.pk-pixel {
+  font-family: var(--pk-font-pixel);
+  letter-spacing: 0.01em;
+}
+.pk-tiny {
+  font-family: var(--pk-font-tiny);
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-/* Scroll container */
-.mobile-app .m-scroll {
-  height: 100vh;
-  height: 100dvh;
+/* Desktop-icon style label: white with hard pixel shadow */
+.pk-icon-label {
+  color: #fff;
+  font-size: 11px;
+  line-height: 13px;
+  text-shadow: 1px 1px 0 #000;
+  text-align: center;
+}
+
+/* ── Chunky mobile bevels (thicker for touch) ───────────────── */
+.pk-raised-thick {
+  background-color: var(--color-win-btn-face);
+  box-shadow:
+    inset -2px -2px 0 #404040, inset 2px 2px 0 #ffffff,
+    inset -4px -4px 0 #808080, inset 4px 4px 0 #dfdfdf;
+}
+.pk-btn {
+  background-color: var(--color-win-btn-face);
+  box-shadow: var(--shadow-win-raised);
+  border: none;
+  font-family: var(--font-ms-sans);
+  font-size: 13px;
+  color: var(--color-win-text);
+  padding: 0 12px;
+  min-height: 44px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.pk-btn:active,
+.pk-btn.pk-pressed {
+  box-shadow: var(--shadow-win-sunken);
+  transform: translate(1px, 1px);
+}
+
+/* Sunken tech chip */
+.pk-chip {
+  display: inline-block;
+  background: #fff;
+  box-shadow: var(--shadow-win-pressed);
+  font-size: 11px;
+  line-height: 14px;
+  padding: 4px 8px;
+  white-space: nowrap;
+}
+
+/* ── Scroll areas ───────────────────────────────────────────── */
+.pk-scroll {
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  position: relative;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+.pk-scroll::-webkit-scrollbar {
+  display: none;
 }
 
-.mobile-app .m-scroll::-webkit-scrollbar { display: none; }
-.mobile-app .m-scroll { scrollbar-width: none; }
-
-/* Safe-area helpers */
-.mobile-app .m-safe-bottom {
-  padding-bottom: max(env(safe-area-inset-bottom), 16px);
+/* App scroll areas keep their last content clear of the AI orb */
+.pk-orb-clear {
+  padding-bottom: 76px !important;
 }
 
-/* Display type utility */
-.mobile-app .m-display {
-  font-family: var(--m-display);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 0.95;
+/* ── Animations ─────────────────────────────────────────────── */
+@keyframes pk-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.pk-blink {
+  animation: pk-blink 1.06s step-end infinite;
 }
 
-.mobile-app .m-display-italic {
-  font-family: var(--m-display);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.025em;
-  line-height: 0.95;
+@keyframes pk-led {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px 1px rgba(0, 255, 0, 0.8); }
+  50% { opacity: 0.55; box-shadow: 0 0 2px 0 rgba(0, 255, 0, 0.4); }
+}
+.pk-led {
+  width: 7px;
+  height: 7px;
+  background: #00e000;
+  border: 1px solid #005500;
+  animation: pk-led 1.6s ease-in-out infinite;
 }
 
-.mobile-app .m-eyebrow {
-  font-family: var(--m-sans);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--m-muted);
+@keyframes pk-progress-march {
+  from { background-position: 0 0; }
+  to { background-position: 22px 0; }
+}
+.pk-progress {
+  background: #fff;
+  box-shadow: var(--shadow-win-sunken);
+  height: 18px;
+  padding: 3px;
+}
+.pk-progress-fill {
+  height: 100%;
+  background: repeating-linear-gradient(
+    to right,
+    var(--color-win-highlight) 0 16px,
+    transparent 16px 22px
+  );
+  background-size: 22px 100%;
+  animation: pk-progress-march 0.5s linear infinite;
 }
 
-/* Subtle shimmer animation for accent moments */
-@keyframes m-shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+/* Text selection off is inherited from body; allow it inside notepad */
+.pk-selectable,
+.pk-selectable * {
+  user-select: text;
+  -webkit-user-select: text;
 }
 
-@keyframes m-pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.4); }
-  50% { box-shadow: 0 0 0 12px rgba(0, 229, 255, 0); }
-}
-
-@keyframes m-marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* Reduced motion fallback */
 @media (prefers-reduced-motion: reduce) {
-  .mobile-app *,
-  .mobile-app *::before,
-  .mobile-app *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  .pk-blink,
+  .pk-led,
+  .pk-progress-fill {
+    animation: none;
+  }
+  .pk-scanlines {
+    display: none;
   }
 }
