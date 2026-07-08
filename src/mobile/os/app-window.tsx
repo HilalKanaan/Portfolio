@@ -9,6 +9,7 @@ import { ExperienceApp } from '../apps/experience-app';
 import { SkillsApp } from '../apps/skills-app';
 import { ContactApp } from '../apps/contact-app';
 import { RecycleBinApp } from '../apps/recycle-bin-app';
+import { SettingsApp } from '../apps/settings-app';
 
 function AppContent({ id }: { id: MobileAppId }) {
   switch (id) {
@@ -24,6 +25,8 @@ function AppContent({ id }: { id: MobileAppId }) {
       return <ContactApp />;
     case 'recycle-bin':
       return <RecycleBinApp />;
+    case 'settings':
+      return <SettingsApp />;
   }
 }
 

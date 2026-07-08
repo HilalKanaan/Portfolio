@@ -9,10 +9,12 @@ interface AppIconProps {
   svgIcon?: string;
   onLaunch: (rect: OriginRect) => void;
   index: number;
+  /** Anchor id for the first-visit tour spotlight */
+  tourId?: string;
 }
 
 /** Home-screen icon: Win95 desktop icon adapted to a 44px+ touch target. */
-export function AppIcon({ label, icon, svgIcon, onLaunch, index }: AppIconProps) {
+export function AppIcon({ label, icon, svgIcon, onLaunch, index, tourId }: AppIconProps) {
   const ref = useRef<HTMLButtonElement>(null);
   const [pressed, setPressed] = useState(false);
 
@@ -44,6 +46,7 @@ export function AppIcon({ label, icon, svgIcon, onLaunch, index }: AppIconProps)
       className="flex flex-col items-center gap-1 border-0 bg-transparent cursor-pointer"
       style={{ minWidth: 64, minHeight: 72, padding: 4, WebkitTapHighlightColor: 'transparent' }}
       aria-label={label.replace('\n', ' ')}
+      data-pk-tour={tourId}
     >
       <span
         className="flex items-center justify-center"

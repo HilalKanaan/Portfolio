@@ -26,14 +26,16 @@
   overscroll-behavior: none;
 }
 
-/* ── Wallpaper: dithered Win95 teal ─────────────────────────── */
+/* ── Wallpaper: dither pattern over any base color ──────────── */
+/* Base color comes from the wallpaper store (inline style);      */
+/* the checker overlay uses translucent black so it works on all. */
 .pk-wallpaper {
   background-color: var(--color-win-desktop);
   background-image:
     radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.06), transparent 60%),
     conic-gradient(
-      var(--color-win-desktop) 25%, #007070 0 50%,
-      var(--color-win-desktop) 0 75%, #007070 0
+      transparent 25%, rgba(0, 0, 0, 0.1) 0 50%,
+      transparent 0 75%, rgba(0, 0, 0, 0.1) 0
     );
   background-size: 100% 100%, 4px 4px;
 }

@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { trackVisit } from '@/lib/tracking';
 import { useMobileStore } from '@/stores/mobile-store';
+import { useWallpaperStore } from '@/stores/wallpaper-store';
 import { MobileBoot } from './os/mobile-boot';
 import { StatusBar } from './os/status-bar';
 import { HomeScreen } from './os/home-screen';
@@ -9,6 +10,8 @@ import { AppWindow } from './os/app-window';
 import { Taskbar } from './os/taskbar';
 import { StartMenu } from './os/start-menu';
 import { MobileBSOD } from './os/mobile-bsod';
+import { PocketVisitorDialog } from './os/pocket-visitor-dialog';
+import { PocketTour } from './os/pocket-tour';
 import { ChatSheet } from './components/chat-sheet';
 
 /** HilalOS Pocket Edition — the phone-OS counterpart of the Win95 desktop. */
@@ -18,6 +21,7 @@ export function MobileApp() {
   const chatOpen = useMobileStore((s) => s.chatOpen);
   const startMenuOpen = useMobileStore((s) => s.startMenuOpen);
   const showBSOD = useMobileStore((s) => s.showBSOD);
+  const scanlines = useWallpaperStore((s) => s.scanlines);
 
   useEffect(() => {
     trackVisit();
@@ -68,13 +72,15 @@ export function MobileApp() {
             <Taskbar />
             <StartMenu />
             <ChatSheet />
+            <PocketTour />
+            <PocketVisitorDialog />
           </motion.div>
         )}
       </AnimatePresence>
 
       <AnimatePresence>{showBSOD && <MobileBSOD key="bsod" />}</AnimatePresence>
 
-      <div className="pk-scanlines" aria-hidden />
+      {scanlines && <div className="pk-scanlines" aria-hidden />}
     </div>
   );
 }
