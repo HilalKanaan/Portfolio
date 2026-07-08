@@ -1,4 +1,6 @@
 import { useMobileStore } from '@/stores/mobile-store';
+import { useThemeStore } from '@/stores/theme-store';
+import { useWallpaperStore } from '@/stores/wallpaper-store';
 import { pocketApps, pocketLinks } from '../data/pocket-apps';
 import { AppIcon } from './app-icon';
 import { HeroWidget } from './hero-widget';
@@ -7,6 +9,8 @@ import { haptic } from '../lib/haptics';
 /** The Pocket desktop: wallpaper, hero widget, app grid. */
 export function HomeScreen() {
   const launchApp = useMobileStore((s) => s.launchApp);
+  const isDark = useThemeStore((s) => s.theme === 'dark');
+  const wallpaperColor = useWallpaperStore((s) => s.getColor(isDark));
 
   return (
     <div
@@ -14,6 +18,7 @@ export function HomeScreen() {
       style={{
         top: 'calc(var(--pk-status-h) + var(--pk-safe-top))',
         bottom: 'calc(var(--pk-taskbar-h) + var(--pk-safe-bottom))',
+        backgroundColor: wallpaperColor,
       }}
     >
       <div className="px-4 pt-4 pb-6 flex flex-col gap-5">
@@ -26,6 +31,7 @@ export function HomeScreen() {
               label={app.label}
               icon={app.icon}
               index={i}
+              tourId={app.id === 'projects' ? 'projects' : undefined}
               onLaunch={(rect) => launchApp(app.id, rect)}
             />
           ))}

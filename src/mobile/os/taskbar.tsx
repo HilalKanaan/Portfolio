@@ -14,10 +14,12 @@ export function Taskbar() {
   const chatOpen = useMobileStore((s) => s.chatOpen);
   const time = useClock();
 
-  // One-time hint bubble pointing at the AI orb
+  // One-time hint bubble pointing at the AI orb.
+  // First-timers get the tour instead (its last step covers the orb).
   const [showHint, setShowHint] = useState(false);
   useEffect(() => {
     if (sessionStorage.getItem(HINT_SEEN_KEY)) return;
+    if (!localStorage.getItem('hilalos-pocket-toured')) return;
     const show = setTimeout(() => setShowHint(true), 9000);
     return () => clearTimeout(show);
   }, []);
@@ -85,6 +87,7 @@ export function Taskbar() {
           WebkitTapHighlightColor: 'transparent',
         }}
         aria-label="Open AI chat with Hilal"
+        data-pk-tour="orb"
       >
         <motion.span
           animate={{ scale: [1, 1.12, 1] }}

@@ -17,6 +17,7 @@ export const pocketApps: PocketApp[] = [
   { id: 'skills', label: 'Skills', windowTitle: 'My Computer — Skills', icon: '💾' },
   { id: 'contact', label: 'Contact.exe', windowTitle: 'Contact.exe', icon: '📧' },
   { id: 'recycle-bin', label: 'Recycle Bin', windowTitle: 'Recycle Bin', icon: '🗑️' },
+  { id: 'settings', label: 'Settings', windowTitle: 'System Settings', icon: '⚙️' },
 ];
 
 export interface PocketLink {

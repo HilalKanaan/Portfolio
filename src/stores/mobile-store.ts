@@ -6,7 +6,8 @@ export type MobileAppId =
   | 'experience'
   | 'skills'
   | 'contact'
-  | 'recycle-bin';
+  | 'recycle-bin'
+  | 'settings';
 
 export type MobilePhase = 'boot' | 'home';
 
@@ -78,6 +79,8 @@ export function aiTargetToMobileApp(target: string): MobileAppId | null {
       return 'skills';
     case 'recycle-bin':
       return 'recycle-bin';
+    case 'settings':
+      return 'settings';
     default:
       return null;
   }

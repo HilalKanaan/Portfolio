@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects, type Project } from '@/data/projects';
+import { trackProjectLinkClick } from '@/lib/tracking';
 import { haptic } from '../lib/haptics';
 
 function ProjectRow({ project, onOpen }: { project: Project; onOpen: () => void }) {
@@ -104,7 +105,10 @@ function ProjectDetail({ project, onBack }: { project: Project; onBack: () => vo
               rel="noopener noreferrer"
               className="pk-btn flex items-center justify-center gap-2 font-bold no-underline"
               style={{ minHeight: 48, color: 'var(--color-win-text)' }}
-              onClick={() => haptic()}
+              onClick={() => {
+                haptic();
+                trackProjectLinkClick(project.id, project.link!);
+              }}
             >
               🌐 Open Live Site
             </a>
@@ -116,7 +120,10 @@ function ProjectDetail({ project, onBack }: { project: Project; onBack: () => vo
               rel="noopener noreferrer"
               className="pk-btn flex items-center justify-center gap-2 no-underline"
               style={{ minHeight: 48, color: 'var(--color-win-text)' }}
-              onClick={() => haptic()}
+              onClick={() => {
+                haptic();
+                trackProjectLinkClick(project.id, project.github!);
+              }}
             >
               🐙 View Source
             </a>
